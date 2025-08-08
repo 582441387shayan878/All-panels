@@ -1,182 +1,160 @@
-<!DOCTYPE html>
-<html lang="fa">
+<!DOCTYPE html><html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <title>🎛️ پنل ادمین کلکسیون</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>🎮 پنل ادمین</title>
   <style>
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
-      color: #00ffcc;
-      margin: 0;
-      padding: 30px;
-      text-align: center;
-      direction: rtl;
-    }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      color: #ff88dc;
-      text-shadow: 0 0 10px #ff88dc;
-    }
-    form {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 136, 220, 0.4);
-      padding: 20px;
-      max-width: 500px;
-      margin: 20px auto;
-      border-radius: 15px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 20px rgba(255, 136, 220, 0.3);
-      text-align: right;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      color: #88ffcc;
-      font-weight: bold;
-      text-align: right;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 15px;
-      font-family: inherit;
-      background: rgba(0,0,0,0.3);
-      color: #00ffee;
-    }
-    button {
-      padding: 12px 25px;
-      background: #ff88dc;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #000;
-      transition: background 0.3s, color 0.3s;
-    }
-    button:hover {
-      background: #00ffee;
-      color: #000;
-    }
-    .output {
-      margin-top: 30px;
-      background: #111;
-      padding: 15px;
-      border-radius: 10px;
-      font-family: monospace;
-      direction: ltr;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-      color: #ff88dc;
-      max-height: 250px;
-      overflow-y: auto;
-      text-align: left;
-    }
-    .section-title {
-      margin-top: 40px;
-      font-size: 22px;
-      color: #00ffee;
-      text-shadow: 0 0 10px #00ffee;
-      text-align: center;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');body {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+  color: #00ffcc;
+  margin: 0;
+  padding: 20px;
+  direction: rtl;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #00ffee;
+  text-shadow: 0 0 10px #00ffee;
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+  background: #222;
+  color: #00ffee;
+}
+
+button {
+  background-color: #00ffee;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #000;
+  color: #00ffee;
+  border: 1px solid #00ffee;
+}
+
+.panel-list {
+  margin-top: 40px;
+}
+
+.panel-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.panel-item h3 {
+  margin: 0;
+  color: #00ffee;
+}
+
+.panel-item p {
+  margin: 5px 0;
+  color: #ccc;
+}
+
+.panel-item button {
+  margin-left: 10px;
+}
+
   </style>
 </head>
 <body>
+  <h1>پنل مدیریت کلکسیون</h1><label for="title">عنوان پنل:</label> <input type="text" id="title">
 
-  <h1>🎛️ پنل ادمین کلکسیون پنل‌ها</h1>
+<label for="description">توضیحات:</label>
 
-  <form id="addPanelForm">
-    <h2 class="section-title">➕ افزودن پنل جدید</h2>
-    <label for="title">نام پنل:</label>
-    <input type="text" id="title" required placeholder="مثلاً Dns panel" />
+  <textarea id="description" rows="3"></textarea><label for="file">نام فایل (مثلاً panel1.html):</label> <input type="text" id="file">
 
-    <label for="description">توضیحات:</label>
-    <textarea id="description" rows="3" required placeholder="مثلاً پنل ساخت کانفیگ"></textarea>
+<button onclick="addPanel()">➕ افزودن پنل</button>
 
-    <label for="file">نام فایل HTML (مثل panel4.html):</label>
-    <input type="text" id="file" required placeholder="نام فایل را دقیق وارد کنید" />
+  <div class="panel-list" id="panelList"></div>  <script>
+    let panels = JSON.parse(localStorage.getItem('panels') || '[]');
 
-    <button type="submit">افزودن پنل</button>
-  </form>
-
-  <div class="output" id="panelsOutput"></div>
-
-  <form id="changeCredsForm">
-    <h2 class="section-title">🔐 تغییر نام کاربری و رمز عبور ادمین</h2>
-
-    <label for="newUsername">نام کاربری جدید:</label>
-    <input type="text" id="newUsername" required placeholder="مثلاً admin" />
-
-    <label for="newPassword">رمز عبور جدید:</label>
-    <input type="password" id="newPassword" required placeholder="رمز عبور جدید" />
-
-    <button type="submit">ذخیره تغییرات</button>
-  </form>
-
-  <script>
-    const addPanelForm = document.getElementById('addPanelForm');
-    const panelsOutput = document.getElementById('panelsOutput');
-    const changeCredsForm = document.getElementById('changeCredsForm');
-
-    // بارگذاری پنل‌ها از localStorage یا مقدار اولیه
-    let panels = JSON.parse(localStorage.getItem('myPanels') || '[]');
-
-    function renderPanels() {
-      panelsOutput.textContent = JSON.stringify(panels, null, 2);
+    function savePanels() {
+      localStorage.setItem('panels', JSON.stringify(panels));
+      renderPanels();
     }
-    renderPanels();
 
-    addPanelForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const title = document.getElementById('title').value.trim();
-      const description = document.getElementById('description').value.trim();
-      const file = document.getElementById('file').value.trim();
+    function addPanel() {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const file = document.getElementById('file').value;
 
-      if (!title || !description || !file) {
-        alert('لطفاً همه فیلدها را پر کنید.');
+      if (!title || !file) {
+        alert('لطفاً عنوان و نام فایل را وارد کنید.');
         return;
       }
 
       panels.push({ title, description, file });
-      localStorage.setItem('myPanels', JSON.stringify(panels, null, 2));
-      renderPanels();
+      savePanels();
 
-      addPanelForm.reset();
-      alert('✅ پنل جدید اضافه شد. فراموش نکن فایل HTML مربوطه را کنار این فایل قرار بده.');
-    });
+      document.getElementById('title').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('file').value = '';
+    }
 
-    // بارگذاری نام کاربری و رمز عبور فعلی یا مقدار پیش فرض
-    const credsKey = 'adminCredentials';
-    let creds = JSON.parse(localStorage.getItem(credsKey)) || { username: 'admin', password: 'bahao' };
+    function renderPanels() {
+      const list = document.getElementById('panelList');
+      list.innerHTML = '';
 
-    // نمایش نام کاربری فعلی در فرم تغییر رمز
-    document.getElementById('newUsername').value = creds.username;
-    document.getElementById('newPassword').value = creds.password;
+      panels.forEach((panel, index) => {
+        const div = document.createElement('div');
+        div.className = 'panel-item';
+        div.innerHTML = `
+          <h3>${panel.title}</h3>
+          <p>${panel.description}</p>
+          <p>📂 فایل: ${panel.file}</p>
+          <button onclick="editPanel(${index})">✏️ ویرایش</button>
+          <button onclick="deletePanel(${index})">🗑️ حذف</button>
+        `;
+        list.appendChild(div);
+      });
+    }
 
-    changeCredsForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const newUsername = document.getElementById('newUsername').value.trim();
-      const newPassword = document.getElementById('newPassword').value.trim();
-
-      if (!newUsername || !newPassword) {
-        alert('نام کاربری و رمز عبور جدید را وارد کنید.');
-        return;
+    function deletePanel(index) {
+      if (confirm('آیا مطمئن هستید که می‌خواهید این پنل را حذف کنید؟')) {
+        panels.splice(index, 1);
+        savePanels();
       }
+    }
 
-      creds = { username: newUsername, password: newPassword };
-      localStorage.setItem(credsKey, JSON.stringify(creds));
+    function editPanel(index) {
+      const panel = panels[index];
+      const newTitle = prompt('عنوان جدید:', panel.title);
+      const newDescription = prompt('توضیحات جدید:', panel.description);
+      const newFile = prompt('نام فایل جدید:', panel.file);
+      if (newTitle && newFile) {
+        panels[index] = {
+          title: newTitle,
+          description: newDescription,
+          file: newFile
+        };
+        savePanels();
+      }
+    }
 
-      alert('✅ نام کاربری و رمز عبور با موفقیت تغییر کرد.');
-      changeCredsForm.reset();
-      // فرم رو با مقادیر جدید دوباره پر کن:
-      document.getElementById('newUsername').value = creds.username;
-      document.getElementById('newPassword').value = creds.password;
-    });
-  </script>
-
-</body>
+    renderPanels();
+  </script></body>
 </html>
