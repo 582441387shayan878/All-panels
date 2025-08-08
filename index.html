@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>🎮 کلکسیون پنل‌ها</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+      color: #00ffcc;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      direction: rtl;
+    }
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+      color: #00ffee;
+      text-shadow: 0 0 10px #00ffee;
+    }
+    h2 {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #999;
+    }
+    #panel-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .panel-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 15px;
+      width: 260px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .panel-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffee;
+    }
+    .panel-card h3 {
+      color: #00ffee;
+      font-size: 20px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px #00ffee;
+    }
+    .panel-card p {
+      font-size: 13px;
+      color: #ccc;
+      min-height: 40px;
+    }
+    .panel-card a {
+      display: inline-block;
+      margin-top: 15px;
+      background: #00ffee;
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .panel-card a:hover {
+      background: #000;
+      color: #00ffee;
+      border: 1px solid #00ffee;
+    }
+    /* دایره پروفایل */
+    .profile-icon {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(45deg, #ff88dc, #00ffee, #88ffcc);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: #000;
+      z-index: 999;
+    }
+    #loginModal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid #00ffee;
+      box-shadow: 0 0 20px #00ffee;
+      display: none;
+      z-index: 1000;
+      width: 300px;
+    }
+    #loginModal input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-family: inherit;
+    }
+    #loginModal button {
+      width: 100%;
+      padding: 10px;
+      background: #00ffee;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+    }
+    #loginModal button:hover {
+      background: #000;
+      color: #00ffee;
+      border: 1px solid #00ffee;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 کلکسیون پنل‌های من</h1>
+  <h2>shayan878@</h2>
+  <div id="panel-container"></div>
+
+  <!-- دایره پروفایل -->
+  <div class="profile-icon" onclick="openLogin()">👤</div>
+
+  <!-- فرم لاگین -->
+  <div id="loginModal">
+    <input type="text" id="username" placeholder="نام کاربری" />
+    <input type="password" id="password" placeholder="رمز عبور" />
+    <button onclick="login()">ورود</button>
+  </div>
+
+  <script>
+    // بارگذاری پنل‌ها از localStorage
+    const container = document.getElementById("panel-container");
+    const panels = JSON.parse(localStorage.getItem("myPanels") || "[]");
+
+    if (panels.length === 0) {
+      container.innerHTML = "<p>❗ هنوز هیچ پنلی اضافه نشده است. لطفاً از پنل ادمین استفاده کن.</p>";
+    } else {
+      panels.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "panel-card";
+        card.innerHTML = `
+          <h3>${p.title}</h3>
+          <p>${p.description}</p>
+          <a href="${p.file}" target="_blank">ورود به پنل</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // مقادیر پیش‌فرض یوزرنیم و پسورد
+    const defaultUser = "admin";
+    const defaultPass = "bahao";
+
+    // گرفتن یوزر و پسورد ذخیره شده یا پیشفرض
+    function getSavedCredentials() {
+      const saved = JSON.parse(localStorage.getItem("adminCredentials"));
+      if (saved && saved.username && saved.password) {
+        return saved;
+      }
+      return { username: defaultUser, password: defaultPass };
+    }
+
+    function openLogin() {
+      document.getElementById("loginModal").style.display = "block";
+    }
+
+    function login() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      const creds = getSavedCredentials();
+
+      if (u === creds.username && p === creds.password) {
+        window.location.href = "admin.html";
+      } else {
+        alert("❌ نام کاربری یا رمز عبور اشتباه است");
+      }
+    }
+  </script>
+
+</body>
+</html>
