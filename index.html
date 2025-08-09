@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>🎮 کلکسیون پنل‌ها</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+      direction: rtl;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 80%, rgba(0, 255, 238, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      margin-bottom: 50px;
+      position: relative;
+    }
+    
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, #00ffcc, #0099ff, #cc00ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(0, 255, 238, 0.5);
+      animation: glow 2s infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px rgba(0, 255, 238, 0.7)); }
+      to { filter: drop-shadow(0 0 15px rgba(0, 255, 238, 0.9)); }
+    }
+    
+    .subtitle {
+      font-size: 1.5rem;
+      color: #a0a0a0;
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+    
+    #panel-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .panel-card {
+      background: rgba(30, 30, 50, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(100, 100, 255, 0.2);
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .panel-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #00ffcc, #0099ff, #cc00ff);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+    
+    .panel-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 100, 255, 0.3);
+      border-color: rgba(0, 255, 238, 0.5);
+    }
+    
+    .panel-card:hover::before {
+      transform: translateX(0);
+    }
+    
+    .panel-card h3 {
+      color: #00ffcc;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 255, 238, 0.5);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .panel-card p {
+      font-size: 1.1rem;
+      color: #b0b0b0;
+      line-height: 1.6;
+      flex-grow: 1;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .panel-card a {
+      display: inline-block;
+      margin-top: auto;
+      background: linear-gradient(90deg, #00ffcc, #0099ff);
+      color: #0a0a1a;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .panel-card a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 255, 238, 0.4);
+    }
+    
+    .panel-card a:active {
+      transform: translateY(0);
+    }
+    
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .empty-state-icon {
+      font-size: 5rem;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .empty-state h3 {
+      font-size: 1.8rem;
+      color: #00ffcc;
+      margin-bottom: 15px;
+    }
+    
+    .empty-state p {
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+    
+    .empty-state a {
+      display: inline-block;
+      background: linear-gradient(90deg, #00ffcc, #0099ff);
+      color: #0a0a1a;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .empty-state a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 255, 238, 0.4);
+    }
+    
+    /* دایره پروفایل */
+    .profile-icon {
+      position: fixed;
+      top: 25px;
+      left: 25px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, #ff88dc, #00ffee, #88ffcc);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 255, 238, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 24px;
+      color: #0a0a1a;
+      z-index: 999;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .profile-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(0, 255, 238, 0.9);
+    }
+    
+    .profile-icon:active {
+      transform: scale(0.95);
+    }
+    
+    /* فرم لاگین */
+    #loginModal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(20, 20, 40, 0.9);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 238, 0.3);
+      box-shadow: 0 0 30px rgba(0, 255, 238, 0.5);
+      display: none;
+      z-index: 1000;
+      width: 350px;
+    }
+    
+    #loginModal h2 {
+      color: #00ffcc;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+    
+    #loginModal input {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(100, 100, 255, 0.3);
+      background: rgba(30, 30, 50, 0.6);
+      color: #e0e0e0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    #loginModal input:focus {
+      outline: none;
+      border-color: #00ffcc;
+      box-shadow: 0 0 10px rgba(0, 255, 238, 0.3);
+    }
+    
+    #loginModal button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(90deg, #00ffcc, #0099ff);
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #0a0a1a;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    #loginModal button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 255, 238, 0.4);
+    }
+    
+    #loginModal button:active {
+      transform: translateY(0);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      color: #e0e0e0;
+      transition: background 0.3s;
+    }
+    
+    .close-modal:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(100, 100, 255, 0.2);
+      color: #808080;
+      font-size: 0.9rem;
+    }
+    
+    /* انیمیشن ورود کارت‌ها */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .panel-card {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+    
+    .panel-card:nth-child(1) { animation-delay: 0.1s; }
+    .panel-card:nth-child(2) { animation-delay: 0.2s; }
+    .panel-card:nth-child(3) { animation-delay: 0.3s; }
+    .panel-card:nth-child(4) { animation-delay: 0.4s; }
+    .panel-card:nth-child(5) { animation-delay: 0.5s; }
+    .panel-card:nth-child(6) { animation-delay: 0.6s; }
+    
+    /* رسپانسیو */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      
+      #panel-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .profile-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+      
+      #loginModal {
+        width: 90%;
+        max-width: 350px;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎯 کلکسیون پنل‌های من</h1>
+      <p class="subtitle">shayan878@</p>
+    </header>
+    
+    <div id="panel-container"></div>
+    
+    <footer>
+      <p>© 2023 کلکسیون پنل‌ها | طراحی شده با ❤️ توسط تیم توسعه</p>
+    </footer>
+  </div>
+  
+  <!-- دایره پروفایل -->
+  <div class="profile-icon" onclick="openLogin()">👤</div>
+  
+  <!-- فرم لاگین -->
+  <div id="loginModal">
+    <div class="close-modal" onclick="closeLogin()">✕</div>
+    <h2>ورود به پنل مدیریت</h2>
+    <input type="text" id="username" placeholder="نام کاربری" />
+    <input type="password" id="password" placeholder="رمز عبور" />
+    <button onclick="login()">ورود</button>
+  </div>
+  
+  <script>
+    // بارگذاری پنل‌ها از localStorage
+    const container = document.getElementById("panel-container");
+    const panels = JSON.parse(localStorage.getItem("myPanels") || "[]");
+    
+    if (panels.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <h3>هیچ پنلی یافت نشد</h3>
+          <p>هنوز هیچ پنلی به کلکسیون شما اضافه نشده است. برای افزودن پنل جدید، لطفاً به پنل مدیریت مراجعه کنید.</p>
+          <a href="#" onclick="openLogin(); return false;">ورود به پنل مدیریت</a>
+        </div>
+      `;
+    } else {
+      panels.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "panel-card";
+        card.innerHTML = `
+          <h3>${p.title}</h3>
+          <p>${p.description}</p>
+          <a href="${p.file}" target="_blank">ورود به پنل</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+    
+    // مقادیر پیش‌فرض یوزرنیم و پسورد
+    const defaultUser = "admin";
+    const defaultPass = "bahao";
+    
+    // گرفتن یوزر و پسورد ذخیره شده یا پیشفرض
+    function getSavedCredentials() {
+      const saved = JSON.parse(localStorage.getItem("adminCredentials"));
+      if (saved && saved.username && saved.password) {
+        return saved;
+      }
+      return { username: defaultUser, password: defaultPass };
+    }
+    
+    function openLogin() {
+      document.getElementById("loginModal").style.display = "block";
+    }
+    
+    function closeLogin() {
+      document.getElementById("loginModal").style.display = "none";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    }
+    
+    function login() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      const creds = getSavedCredentials();
+      
+      if (u === creds.username && p === creds.password) {
+        window.location.href = "admin.html";
+      } else {
+        // نمایش پیام خطا به جای alert
+        const passwordField = document.getElementById("password");
+        passwordField.style.borderColor = "#ff4b2b";
+        passwordField.placeholder = "نام کاربری یا رمز عبور اشتباه است";
+        passwordField.value = "";
+        
+        setTimeout(() => {
+          passwordField.style.borderColor = "rgba(100, 100, 255, 0.3)";
+          passwordField.placeholder = "رمز عبور";
+        }, 3000);
+      }
+    }
+    
+    // بستن مودال با کلیک خارج از آن
+    window.onclick = function(event) {
+      const modal = document.getElementById("loginModal");
+      if (event.target === modal) {
+        closeLogin();
+      }
+    }
+  </script>
+</body>
+</html>
