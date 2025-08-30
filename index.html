@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <title>🎮 کلکسیون پنل‌ها</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>🎮 پنل ادمین</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
     *{margin:0;padding:0;box-sizing:border-box}
     body{
       font-family:'Orbitron',sans-serif;
       background:linear-gradient(135deg,#0f0f23 0%,#1a1a2e 50%,#16213e 100%);
-      color:#e0e0e0;min-height:100vh;padding:20px;text-align:center;direction:rtl;
-      position:relative;overflow-x:hidden;
+      color:#e0e0e0;min-height:100vh;padding:20px;direction:rtl;position:relative;overflow-x:hidden;
     }
     body::before{
       content:'';position:absolute;top:0;left:0;width:100%;height:100%;
@@ -18,121 +17,377 @@
                  radial-gradient(circle at 80% 20%,rgba(255,0,255,.1) 0%,transparent 50%);
       z-index:-1;
     }
-    h1{font-size:3.5rem;font-weight:700;margin-bottom:15px;
+    .container{max-width:1200px;margin:0 auto;padding:20px}
+    header{text-align:center;margin-bottom:40px;position:relative}
+    h1{
+      font-size:3rem;font-weight:700;margin-bottom:10px;
       background:linear-gradient(90deg,#00ffcc,#0099ff,#cc00ff);
       -webkit-background-clip:text;background-clip:text;color:transparent;
-      text-shadow:0 0 20px rgba(0,255,238,.5);animation:glow 2s infinite alternate}
+      text-shadow:0 0 20px rgba(0,255,238,.5);animation:glow 2s infinite alternate
+    }
     @keyframes glow{from{filter:drop-shadow(0 0 5px rgba(0,255,238,.7))}
-                    to{filter:drop-shadow(0 0 15px rgba(0,255,238,.9))}}
-    .subtitle{font-size:1.5rem;color:#a0a0a0;margin-bottom:30px;font-weight:500}
-    #panel-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-      gap:30px;margin-top:40px}
-    .panel-card{background:rgba(30,30,50,.7);backdrop-filter:blur(10px);border-radius:20px;
-      border:1px solid rgba(100,100,255,.2);padding:30px;box-shadow:0 10px 30px rgba(0,0,0,.3);
-      transition:.3s;position:relative;overflow:hidden;display:flex;flex-direction:column}
-    .panel-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;
-      background:linear-gradient(90deg,#00ffcc,#0099ff,#cc00ff);
-      transform:translateX(-100%);transition:.5s}
-    .panel-card:hover{transform:translateY(-10px);box-shadow:0 15px 40px rgba(0,100,255,.3);
-      border-color:rgba(0,255,238,.5)}
-    .panel-card:hover::before{transform:translateX(0)}
-    .panel-card h3{color:#00ffcc;font-size:1.8rem;margin-bottom:15px;text-shadow:0 0 10px rgba(0,255,238,.5)}
-    .panel-card p{font-size:1.1rem;color:#b0b0b0;line-height:1.6;flex-grow:1;margin-bottom:20px}
-    .panel-card a{display:inline-block;margin-top:auto;background:linear-gradient(90deg,#00ffcc,#0099ff);
-      color:#0a0a1a;padding:12px 25px;border-radius:30px;font-weight:700;text-decoration:none;
-      transition:.3s;font-size:1rem}
-    .panel-card a:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,255,238,.4)}
-    .empty-state{text-align:center;padding:60px 20px}
-    .empty-state h3{color:#00ffcc;margin-bottom:15px}
-    .profile-icon{position:fixed;top:25px;left:25px;width:60px;height:60px;
-      background:linear-gradient(45deg,#ff88dc,#00ffee,#88ffcc);border-radius:50%;
-      cursor:pointer;box-shadow:0 0 20px rgba(0,255,238,.7);display:flex;
-      align-items:center;justify-content:center;font-size:24px;font-weight:bold;color:#0a0a1a;z-index:999}
-    /* مودال لاگین */
-    #loginModal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-      background:rgba(20,20,40,.9);backdrop-filter:blur(15px);padding:40px;border-radius:20px;
-      border:1px solid rgba(0,255,238,.3);box-shadow:0 0 30px rgba(0,255,238,.5);
-      display:none;z-index:1000;width:350px;animation:fadeIn .4s}
-    @keyframes fadeIn{from{opacity:0;transform:translate(-50%,-40%)}to{opacity:1;transform:translate(-50%,-50%)}}
-    #loginModal input{width:100%;margin-bottom:15px;padding:15px;border-radius:10px;
-      border:1px solid rgba(100,100,255,.3);background:rgba(30,30,50,.6);color:#e0e0e0;font-size:1rem}
-    #loginModal button{width:100%;padding:15px;background:linear-gradient(90deg,#00ffcc,#0099ff);
-      border:none;border-radius:10px;font-weight:700;cursor:pointer;color:#0a0a1a}
-    .close-modal{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(255,255,255,.1);
-      border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    to{filter:drop-shadow(0 0 15px rgba(0,255,238,.9))}}
+    .subtitle{font-size:1.2rem;color:#a0a0a0;margin-bottom:30px}
+    .admin-panel{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-bottom:40px}
+    @media (max-width:968px){.admin-panel{grid-template-columns:1fr}}
+    .card{
+      background:rgba(30,30,50,.7);backdrop-filter:blur(10px);border-radius:15px;
+      border:1px solid rgba(100,100,255,.2);padding:25px;box-shadow:0 8px 32px rgba(0,0,0,.3);
+      transition:transform .3s,box-shadow .3s;
+    }
+    .card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,100,255,.2)}
+    .card-title{font-size:1.5rem;margin-bottom:20px;color:#00ffcc;display:flex;align-items:center;gap:10px}
+    .form-group{margin-bottom:20px}
+    label{display:block;margin-bottom:8px;font-weight:500;color:#b0b0b0}
+    input,textarea{
+      width:100%;padding:12px 15px;border-radius:8px;border:1px solid rgba(100,100,255,.3);
+      background:rgba(20,20,40,.6);color:#e0e0e0;font-family:'Orbitron',sans-serif;
+      transition:border-color .3s,box-shadow .3s;
+    }
+    input:focus,textarea:focus{outline:none;border-color:#00ffcc;box-shadow:0 0 10px rgba(0,255,238,.3)}
+    textarea{resize:vertical;min-height:100px}
+    .btn{
+      background:linear-gradient(90deg,#00ffcc,#0099ff);color:#0a0a1a;border:none;padding:12px 25px;border-radius:8px;
+      font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px;
+      font-family:'Orbitron',sans-serif;font-size:1rem;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,255,238,.4)}
+    .btn:active{transform:translateY(0)}
+    .btn-secondary{background:rgba(100,100,255,.2);color:#e0e0e0}
+    .btn-danger{background:linear-gradient(90deg,#ff416c,#ff4b2b);color:#fff}
+    .panel-list{margin-top:40px}
+    .panel-item{
+      background:rgba(30,30,50,.7);backdrop-filter:blur(10px);padding:20px;margin-bottom:20px;border-radius:15px;
+      border:1px solid rgba(100,100,255,.2);box-shadow:0 8px 32px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s;
+    }
+    .panel-item:hover{transform:translateY(-3px);box-shadow:0 10px 35px rgba(0,100,255,.2)}
+    .panel-item h3{margin:0 0 10px;color:#00ffcc;font-size:1.4rem}
+    .panel-item p{margin:5px 0;color:#b0b0b0;line-height:1.5}
+    .panel-item .file-info{color:#0099ff;font-weight:500;margin:10px 0}
+    .panel-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+    .password-strength{height:5px;margin-top:5px;border-radius:5px;background:#333;overflow:hidden}
+    .password-strength-meter{height:100%;width:0;transition:width .3s,background-color .3s}
+    .weak{background:#ff4b2b;width:33%}.medium{background:#ffb347;width:66%}.strong{background:#00ff88;width:100%}
+    .notification{
+      position:fixed;top:20px;right:20px;padding:15px 20px;border-radius:8px;color:#fff;font-weight:500;z-index:1000;
+      transform:translateX(120%);transition:transform .3s ease-out
+    }
+    .notification.show{transform:translateX(0)}
+    .notification.success{background:linear-gradient(90deg,#00ff88,#00cc66)}
+    .notification.error{background:linear-gradient(90deg,#ff4b2b,#ff416c)}
+    footer{text-align:center;margin-top:50px;padding-top:20px;border-top:1px solid rgba(100,100,255,.2);color:#808080;font-size:.9rem}
+    /* ریزتر */
+    .hint{font-size:.85rem;color:#a0a0a0;margin-top:-10px}
+    .row{display:flex;gap:12px}
+    .row > *{flex:1}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🎯 کلکسیون پنل‌های من</h1>
-      <p class="subtitle">shayan878@</p>
+      <h1>پنل مدیریت کلکسیون</h1>
+      <p class="subtitle">مدیریت پنل‌ها و تنظیمات امنیتی</p>
     </header>
-    <div id="panel-container"></div>
-    <footer><p>© 2023 کلکسیون پنل‌ها | طراحی شده با ❤️</p></footer>
+
+    <div class="admin-panel">
+      <!-- افزودن پنل -->
+      <div class="card">
+        <h2 class="card-title"><span>➕</span> افزودن پنل جدید</h2>
+        <div class="form-group">
+          <label for="title">عنوان پنل:</label>
+          <input type="text" id="title" placeholder="عنوان پنل را وارد کنید">
+        </div>
+        <div class="form-group">
+          <label for="description">توضیحات:</label>
+          <textarea id="description" placeholder="توضیحات مربوط به پنل را وارد کنید"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="file">نام فایل (مثلاً panel1.html):</label>
+          <input type="text" id="file" placeholder="نام فایل را وارد کنید">
+        </div>
+        <button class="btn" onclick="addPanel()">➕ افزودن پنل</button>
+      </div>
+
+      <!-- تغییر رمز عبور ادمین (همون بخش خودت) -->
+      <div class="card">
+        <h2 class="card-title"><span>🔒</span> تغییر رمز عبور ادمین</h2>
+        <div class="form-group">
+          <label for="currentPassword">رمز عبور فعلی:</label>
+          <input type="password" id="currentPassword" placeholder="رمز عبور فعلی را وارد کنید">
+        </div>
+        <div class="form-group">
+          <label for="newPassword">رمز عبور جدید:</label>
+          <input type="password" id="newPassword" placeholder="رمز عبور جدید را وارد کنید" onkeyup="checkPasswordStrength()">
+          <div class="password-strength"><div class="password-strength-meter" id="passwordStrength"></div></div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">تکرار رمز عبور جدید:</label>
+          <input type="password" id="confirmPassword" placeholder="رمز عبور جدید را تکرار کنید">
+        </div>
+        <button class="btn btn-secondary" onclick="changePassword()">🔒 تغییر رمز عبور</button>
+        <p class="hint">یوزرنیم پیش‌فرض: <b>582441387shayan878</b> — رمز فعلی پیش‌فرض: <b>sh878</b></p>
+      </div>
+
+      <!-- تنظیمات همگام‌سازی گیت‌هاب (Gist) -->
+      <div class="card" style="grid-column:1 / -1">
+        <h2 class="card-title"><span>☁️</span> تنظیمات همگام‌سازی گیت‌هاب (بدون ریپوزیتوری)</h2>
+
+        <div class="form-group">
+          <label for="gistId">Gist ID (عمومی):</label>
+          <input type="text" id="gistId" placeholder="مثال: a1b2c3d4e5f6g7h8i9">
+          <p class="hint">یک Gist عمومی بساز و فقط <b>ID</b> رو اینجا بذار. محتوای فایل پنل‌ها داخل <b>panels.json</b> ذخیره می‌شود.</p>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="gistFile">نام فایل داخل Gist:</label>
+            <input type="text" id="gistFile" value="panels.json">
+          </div>
+          <div class="form-group">
+            <label for="ghToken">GitHub Token (اختیاری برای خواندن، لازم برای نوشتن):</label>
+            <input type="password" id="ghToken" placeholder="ghp_..." autocomplete="off">
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button class="btn" onclick="saveSettings()">💾 ذخیره تنظیمات</button>
+          <button class="btn btn-secondary" onclick="pullFromGitHub()">⬇️ دریافت از گیت‌هاب</button>
+          <button class="btn" onclick="pushToGitHub()">⬆️ ارسال به گیت‌هاب</button>
+        </div>
+
+        <div class="form-group">
+          <label for="shareInput">لینک اشتراک برای کاربر ناشناس:</label>
+          <input type="text" id="shareInput" readonly>
+          <p class="hint">این لینک رو به هر کسی بدی، صفحهٔ کاربر به‌صورت زنده از همین Gist می‌خونه.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-list" id="panelList"></div>
+
+    <footer><p>© 2023 پنل مدیریت کلکسیون | طراحی شده با ❤️ توسط تیم توسعه</p></footer>
   </div>
 
-  <!-- دکمه پروفایل -->
-  <div class="profile-icon" onclick="openLogin()">👤</div>
+  <div class="notification" id="notification"></div>
 
-  <!-- مودال لاگین -->
-  <div id="loginModal">
-    <div class="close-modal" onclick="closeLogin()">✕</div>
-    <h2 style="color:#00ffcc;margin-bottom:20px;">ورود به پنل مدیریت</h2>
-    <input type="text" id="username" placeholder="نام کاربری">
-    <input type="password" id="password" placeholder="رمز عبور">
-    <button onclick="login()">ورود</button>
-  </div>
+  <script>
+    // --- احراز هویت ادمین (پیش‌فرض جدید)
+    let adminCredentials = JSON.parse(localStorage.getItem('adminCredentials')) || {
+      username: '582441387shayan878',
+      password: 'sh878'
+    };
 
-<script>
-  const API_URL = "https://api.github.com/repos/shayan878/پنل/contents/"; // آدرس ریپو
+    // --- لیست پنل‌ها
+    let panels = JSON.parse(localStorage.getItem('panels') || '[]');
 
-  // 📌 بارگذاری لیست فایل‌ها از گیت‌هاب
-  async function loadPanels() {
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      const container = document.getElementById("panel-container");
-      container.innerHTML = "";
+    // --- تنظیمات Gist
+    let ghSettings = Object.assign({
+      gistId: '',
+      gistFile: 'panels.json',
+      ghToken: '' // در localStorage ذخیره می‌شود (برای پروژه شخصی OK)
+    }, JSON.parse(localStorage.getItem('ghSettings') || '{}'));
 
-      if (!Array.isArray(data) || data.length === 0) {
-        container.innerHTML = `<div class="empty-state"><h3>📭 هیچ پنلی یافت نشد</h3></div>`;
+    // نمایش لینک اشتراک
+    function refreshShareLink() {
+      const share = document.getElementById('shareInput');
+      const file = ghSettings.gistFile || 'panels.json';
+      const base = location.origin + location.pathname.replace(/admin\.html$/i, 'user.html');
+      const link = `${base}?gist=${encodeURIComponent(ghSettings.gistId)}&file=${encodeURIComponent(file)}`;
+      share.value = ghSettings.gistId ? link : 'اول Gist ID را ذخیره کنید';
+    }
+
+    // ذخیره تنظیمات
+    function saveSettings() {
+      ghSettings.gistId = document.getElementById('gistId').value.trim();
+      ghSettings.gistFile = document.getElementById('gistFile').value.trim() || 'panels.json';
+      ghSettings.ghToken = document.getElementById('ghToken').value.trim();
+      localStorage.setItem('ghSettings', JSON.stringify(ghSettings));
+      refreshShareLink();
+      showNotification('تنظیمات ذخیره شد', 'success');
+    }
+
+    // پر کردن فرم تنظیمات از حافظه
+    function fillSettingsForm() {
+      document.getElementById('gistId').value = ghSettings.gistId || '';
+      document.getElementById('gistFile').value = ghSettings.gistFile || 'panels.json';
+      document.getElementById('ghToken').value = ghSettings.ghToken || '';
+      refreshShareLink();
+    }
+
+    // ذخیره و رندر پنل‌ها لوکال
+    function savePanels() {
+      localStorage.setItem('panels', JSON.stringify(panels));
+      renderPanels();
+    }
+
+    // افزودن پنل
+    async function addPanel() {
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const file = document.getElementById('file').value.trim();
+
+      if (!title || !file) {
+        showNotification('لطفاً عنوان و نام فایل را وارد کنید', 'error');
         return;
       }
 
-      data.forEach(file => {
-        if (file.name.endsWith(".html") && file.name !== "ادمین.html" && file.name !== "کاربر.html") {
-          const card = document.createElement("div");
-          card.className = "panel-card";
-          card.innerHTML = `
-            <h3>${file.name}</h3>
-            <p>پنل ذخیره شده در ریپوزیتوری</p>
-            <a href="${file.html_url}" target="_blank">ورود به پنل</a>
-          `;
-          container.appendChild(card);
-        }
+      panels.push({ title, description, file });
+      savePanels();
+      document.getElementById('title').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('file').value = '';
+      showNotification('پنل با موفقیت اضافه شد', 'success');
+
+      // سینک خودکار
+      await pushToGitHub();
+    }
+
+    // رندر پنل‌ها
+    function renderPanels() {
+      const list = document.getElementById('panelList');
+      list.innerHTML = '';
+
+      if (panels.length === 0) {
+        list.innerHTML = '<p style="text-align: center; color: #808080; padding: 30px;">هیچ پنلی یافت نشد. لطفاً یک پنل جدید اضافه کنید.</p>';
+        return;
+      }
+
+      panels.forEach((panel, index) => {
+        const div = document.createElement('div');
+        div.className = 'panel-item';
+        div.innerHTML = `
+          <h3>${panel.title}</h3>
+          <p>${panel.description || ''}</p>
+          <p class="file-info">📂 فایل: ${panel.file}</p>
+          <div class="panel-actions">
+            <button class="btn btn-secondary" onclick="editPanel(${index})"><span>✏️</span> ویرایش</button>
+            <button class="btn btn-danger" onclick="deletePanel(${index})"><span>🗑️</span> حذف</button>
+          </div>
+        `;
+        list.appendChild(div);
       });
-    } catch (e) {
-      console.error(e);
-      document.getElementById("panel-container").innerHTML = `<div class="empty-state"><h3>❌ خطا در اتصال</h3></div>`;
     }
-  }
 
-  // ورود ادمین
-  function openLogin(){document.getElementById("loginModal").style.display="block"}
-  function closeLogin(){document.getElementById("loginModal").style.display="none"}
-  function login(){
-    const u=document.getElementById("username").value;
-    const p=document.getElementById("password").value;
-    if(u==="582441387shayan878" && p==="sh878"){
-      window.location.href="ادمین.html";
-    } else {
-      document.getElementById("password").value="";
-      document.getElementById("password").placeholder="❌ اشتباهه!";
+    // حذف پنل
+    async function deletePanel(index) {
+      if (confirm('آیا مطمئن هستید که می‌خواهید این پنل را حذف کنید؟')) {
+        panels.splice(index, 1);
+        savePanels();
+        showNotification('پنل با موفقیت حذف شد', 'success');
+        await pushToGitHub();
+      }
     }
-  }
 
-  loadPanels();
-</script>
+    // ویرایش پنل
+    async function editPanel(index) {
+      const panel = panels[index];
+      const newTitle = prompt('عنوان جدید:', panel.title);
+      const newDescription = prompt('توضیحات جدید:', panel.description || '');
+      const newFile = prompt('نام فایل جدید:', panel.file);
+
+      if (newTitle && newFile) {
+        panels[index] = { title: newTitle.trim(), description: (newDescription||'').trim(), file: newFile.trim() };
+        savePanels();
+        showNotification('پنل با موفقیت ویرایش شد', 'success');
+        await pushToGitHub();
+      }
+    }
+
+    // تغییر پسورد
+    function changePassword() {
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (currentPassword !== adminCredentials.password) {
+        showNotification('رمز عبور فعلی اشتباه است', 'error'); return;
+      }
+      if (newPassword.length < 6) {
+        showNotification('رمز عبور جدید باید حداقل 6 کاراکتر باشد', 'error'); return;
+      }
+      if (newPassword !== confirmPassword) {
+        showNotification('رمز عبور جدید و تکرار آن یکسان نیستند', 'error'); return;
+      }
+      adminCredentials.password = newPassword;
+      localStorage.setItem('adminCredentials', JSON.stringify(adminCredentials));
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      document.getElementById('passwordStrength').className = 'password-strength-meter';
+      showNotification('رمز عبور با موفقیت تغییر کرد', 'success');
+    }
+
+    // قدرت پسورد
+    function checkPasswordStrength() {
+      const password = document.getElementById('newPassword').value;
+      const meter = document.getElementById('passwordStrength');
+      if (!password) { meter.className = 'password-strength-meter'; return; }
+      if (password.length < 6) meter.className = 'password-strength-meter weak';
+      else if (password.length < 10) meter.className = 'password-strength-meter medium';
+      else meter.className = 'password-strength-meter strong';
+    }
+
+    // اعلان
+    function showNotification(message, type) {
+      const n = document.getElementById('notification');
+      n.textContent = message;
+      n.className = `notification ${type}`;
+      n.classList.add('show');
+      setTimeout(()=>n.classList.remove('show'), 3000);
+    }
+
+    // --- ابزارک‌های GitHub Gist
+    async function pullFromGitHub() {
+      if (!ghSettings.gistId) { showNotification('ابتدا Gist ID را تنظیم کنید', 'error'); return; }
+      try {
+        const res = await fetch(`https://api.github.com/gists/${ghSettings.gistId}`, {
+          headers: ghSettings.ghToken ? { Authorization: `Bearer ${ghSettings.ghToken}` } : {}
+        });
+        if (!res.ok) throw new Error('Gist not found');
+        const data = await res.json();
+        const fileName = ghSettings.gistFile || 'panels.json';
+        const file = data.files && data.files[fileName];
+        if (!file) throw new Error(`فایل ${fileName} در Gist نیست`);
+        panels = JSON.parse(file.content || '[]');
+        savePanels();
+        showNotification('دریافت از گیت‌هاب انجام شد', 'success');
+      } catch (e) {
+        showNotification('خطا در دریافت از گیت‌هاب: ' + e.message, 'error');
+      }
+    }
+
+    async function pushToGitHub() {
+      if (!ghSettings.gistId) { showNotification('ابتدا Gist ID را تنظیم کنید', 'error'); return; }
+      if (!ghSettings.ghToken) { showNotification('برای ارسال به Gist، توکن لازم است', 'error'); return; }
+      try {
+        const body = {
+          files: {
+            [ghSettings.gistFile || 'panels.json']: {
+              content: JSON.stringify(panels, null, 2)
+            }
+          }
+        };
+        const res = await fetch(`https://api.github.com/gists/${ghSettings.gistId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${ghSettings.ghToken}`
+          },
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) throw new Error('ارسال ناموفق بود');
+        showNotification('ارسال به گیت‌هاب انجام شد', 'success');
+      } catch (e) {
+        showNotification('خطا در ارسال به گیت‌هاب: ' + e.message, 'error');
+      }
+    }
+
+    // رندر اولیه
+    fillSettingsForm();
+    renderPanels();
+    // اگر Gist تنظیم شده، در شروع تلاش می‌کنیم از آن بکشیم
+    if (ghSettings.gistId) { pullFromGitHub(); }
+  </script>
 </body>
-</html>
+  </html>
