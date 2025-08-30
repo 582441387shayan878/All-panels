@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>VIP DNS PANEL</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Tahoma", sans-serif;
+      background: radial-gradient(circle at top, #00111a, #000);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .login, .panel {
+      display: none;
+      text-align: center;
+      margin-top: 10%;
+    }
+
+    .login.active, .panel.active {
+      display: block;
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      font-size: 22px;
+      color: cyan;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    }
+
+    .form {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0,0,40,0.7);
+      border-radius: 15px;
+      box-shadow: 0 0 15px #0ff;
+      display: inline-block;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 8px 20px;
+      background: cyan;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0ff;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px cyan;
+    }
+
+    .dns-output {
+      margin-top: 20px;
+      font-size: 18px;
+      color: lime;
+      text-shadow: 0 0 10px lime;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- صفحه ورود -->
+  <div class="login active">
+    <h1>ورود به پنل VIP DNS</h1>
+    <input type="password" id="password" placeholder="رمز ورود">
+    <br>
+    <button onclick="login()">ورود</button>
+    <p id="loginMsg" style="color:red; margin-top:10px;"></p>
+  </div>
+
+  <!-- پنل اصلی -->
+  <div class="panel">
+    <h1>پنل تولید DNS واقعی <span class="tag">VIP</span></h1>
+
+    <div class="form">
+      <button onclick="generateDNS()">🔗 ساخت DNS واقعی</button>
+    </div>
+
+    <div class="dns-output" id="dnsResult"></div>
+  </div>
+
+  <script>
+    function login() {
+      let pass = document.getElementById("password").value;
+      if (pass === "Amir") {
+        document.querySelector(".login").classList.remove("active");
+        document.querySelector(".panel").classList.add("active");
+      } else {
+        document.getElementById("loginMsg").innerText = "❌ رمز اشتباه است!";
+      }
+    }
+
+    async function generateDNS() {
+      document.getElementById("dnsResult").innerText = "⏳ در حال بررسی...";
+
+      // ساخت آی‌پی تصادفی
+      let randIP = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+
+      try {
+        // بررسی آی‌پی در ip-api
+        let res = await fetch(`http://ip-api.com/json/${randIP}?fields=status,country,isp,query`);
+        let data = await res.json();
+
+        if (data.status === "success") {
+          document.getElementById("dnsResult").innerHTML = `
+            🌍 کشور: ${data.country} <br>
+            🏢 ISP: ${data.isp} <br>
+            📡 DNS: <span style="color:yellow">${data.query}</span>
+          `;
+        } else {
+          document.getElementById("dnsResult").innerText = "❌ DNS معتبر پیدا نشد، دوباره امتحان کنید.";
+        }
+      } catch (err) {
+        document.getElementById("dnsResult").innerText = "⚠️ خطا در ارتباط با سرور بررسی آی‌پی.";
+      }
+    }
+  </script>
+</body>
+</html>
